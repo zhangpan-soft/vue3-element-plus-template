@@ -32,6 +32,16 @@ npm run test:e2e
 npm run lint
 ```
 
+### electron run
+```
+npm run electron:serve
+```
+
+### electron build
+```
+npm run electron:build
+```
+
 ## If you want to develop a desktop client, you can perform the following steps based on this project
 
 1. Execute `vue add electron-builder@alpha` Command, wait for the background.js file to be generated 
@@ -45,9 +55,9 @@ npm run lint
    ```
    2. Other things you want to do can be handled here, such as preload.js, backend services, IPC communication, and so on
 3. After executing the `vue add electron-builder@alpha` command, the startup command for Electron and the packaging command will be added in package.json. Note that following this operation does not require specifying the main option in package.json
-   `electron:serve": "vue-cli-service electron:serve` and `"electron:build": "vue-cli-service electron:build"`
+   `"electron:serve": "vue-cli-service electron:serve` and `"electron:build": "vue-cli-service electron:build"`
 
 ## My CSS skills are not very good, so I have some minor issues with the menu style. Please submit a merge request so that I can fix this issue. Thank you
 
-## 关于electron, 我新增了一个分支, 名为vue3-element-plus-template-electron
+## Regarding Electron, I have added a new branch called `vue3-element-plus-template-electron`
 
