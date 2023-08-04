@@ -49,5 +49,5 @@ npm run lint
 
 ## My CSS skills are not very good, so I have some minor issues with the menu style. Please submit a merge request so that I can fix this issue. Thank you
 
-
+## 关于electron, 我新增了一个分支, 名为vue3-element-plus-template-electron
 
