@@ -35,7 +35,7 @@
         align="center"
       >
         <template v-slot="scope">
-          <el-tag :type="status(scope.row.status)">{{
+          <el-tag :type="statusFilter(scope.row.status)">{{
             scope.row.status
           }}</el-tag>
         </template>
@@ -57,15 +57,15 @@
 
 <script setup lang="ts">
 import { getList } from "@/api/table";
-import { computed, ref } from "vue";
-const status = computed((value: any) => {
+import { ref } from "vue";
+const statusFilter = (value: any) => {
   const statusMap: Record<any, any> = {
     published: "success",
     draft: "gray",
     deleted: "danger",
   };
   return statusMap[value];
-});
+};
 const list = ref();
 const listLoading = ref(true);
 const fetchData = () => {
