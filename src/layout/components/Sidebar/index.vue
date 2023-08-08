@@ -30,6 +30,7 @@ import SidebarItem from "./SidebarItem";
 import variables from "@/styles/variables.module.scss";
 import { computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
+
 const $store = useStore();
 const $router = useRouter();
 const $route = useRoute();

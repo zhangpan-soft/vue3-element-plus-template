@@ -10,14 +10,14 @@
           class="no-redirect"
           >{{ item.meta.title }}</span
         >
-        <a v-else @click.prevent="handleLink(item)">{{ item.meta.title }}</a>
+        <a v-else @click="handleLink(item)">{{ item.meta.title }}</a>
       </el-breadcrumb-item>
     </transition-group>
   </el-breadcrumb>
 </template>
 
 <script lang="ts" setup>
-import pathToRegexp from "path-to-regexp";
+import * as pathToRegexp from "path-to-regexp";
 import { ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 const levelList = ref();
@@ -49,6 +49,7 @@ const isDashboard = ($route: any) => {
   return name.trim().toLocaleLowerCase() === "Dashboard".toLocaleLowerCase();
 };
 const pathCompiler = (path: string) => {
+  debugger;
   const { params } = route;
   return pathToRegexp.compile(path)(params);
 };

@@ -53,7 +53,7 @@ npm run electron:build
        win = null
      })
    ```
-   2. Other things you want to do can be handled here, such as preload.js, backend services, IPC communication, and so on
+   2. Other things you want to do can be handled here, such as preload.ts, backend services, IPC communication, and so on
 3. After executing the `vue add electron-builder@alpha` command, the startup command for Electron and the packaging command will be added in package.json. Note that following this operation does not require specifying the main option in package.json
    `"electron:serve": "vue-cli-service electron:serve` and `"electron:build": "vue-cli-service electron:build"`
 

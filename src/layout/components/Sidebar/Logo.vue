@@ -22,7 +22,7 @@
 import { ref } from "vue";
 import defaultSettings from "@/settings";
 
-const props = defineProps({
+defineProps({
   collapse: {
     type: Boolean,
     default: true,

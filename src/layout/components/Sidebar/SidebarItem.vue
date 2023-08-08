@@ -54,6 +54,7 @@ import Item from "./Item.vue";
 import AppLink from "./Link.vue";
 import FixiOSBug from "./FixiOSBug";
 import { defineComponent } from "vue";
+import * as path from "path";
 
 export default defineComponent({
   name: "SidebarItem",
@@ -111,7 +112,7 @@ export default defineComponent({
       if (isExternal(this.basePath)) {
         return this.basePath;
       }
-      return "";
+      return path.resolve(this.basePath, routePath);
     },
   },
 });
