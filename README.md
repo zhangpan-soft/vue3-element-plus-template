@@ -42,22 +42,7 @@ npm run electron:serve
 npm run electron:build
 ```
 
-## If you want to develop a desktop client, you can perform the following steps based on this project
+### 如果你不想使用electron, 你可选择不管electron(可以不移除electron的相关包), 但是封装的NodeHttpsUtils则不能使用, 此是基于原生Node实现的, 直接使用正常的启动方式启动即可, 你也可以选择移除electron相关包, 并删除background.ts文件以及preload.ts文件
 
-1. Execute `vue add electron-builder@alpha` Command, wait for the background.js file to be generated 
-2. Rename the background.js file to background.ts and make the following modifications
-    1. Add Window Close Listening
-   ```typescript
-     // 当应用所有窗口关闭要做的事情
-     win.on('closed', () => {
-       win = null
-     })
-   ```
-   2. Other things you want to do can be handled here, such as preload.ts, backend services, IPC communication, and so on
-3. After executing the `vue add electron-builder@alpha` command, the startup command for Electron and the packaging command will be added in package.json. Note that following this operation does not require specifying the main option in package.json
-   `"electron:serve": "vue-cli-service electron:serve` and `"electron:build": "vue-cli-service electron:build"`
-
-## My CSS skills are not very good, so I have some minor issues with the menu style. Please submit a merge request so that I can fix this issue. Thank you
-
-## Regarding Electron, I have added a new branch called `vue3-element-plus-template-electron`
+### 注意: electron的preload.ts文件, 在background.ts中加载时, 需要将preload.ts文件执行tsc编译为js, 并移动preload.js到electron的打包目录, 默认应该为: `dist-electron`
 
