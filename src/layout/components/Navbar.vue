@@ -1,4 +1,5 @@
 <template>
+  <!-- 顶部导航栏 -->
   <div class="navbar">
     <hamburger
       :is-active="sidebar.opened"
@@ -18,16 +19,10 @@
           <router-link to="/">
             <el-dropdown-item> Home </el-dropdown-item>
           </router-link>
-          <a
-            target="_blank"
-            href="https://github.com/PanJiaChen/vue-admin-template/"
-          >
+          <a target="_blank" href="https://github.com/zhangpan-soft/vue3-element-plus-template">
             <el-dropdown-item>Github</el-dropdown-item>
           </a>
-          <a
-            target="_blank"
-            href="https://panjiachen.github.io/vue-element-admin-site/#/"
-          >
+          <a target="_blank" href="https://github.com/zhangpan-soft/vue3-element-plus-template">
             <el-dropdown-item>Docs</el-dropdown-item>
           </a>
           <el-dropdown-item divided @click="logout">
@@ -40,23 +35,40 @@
 </template>
 
 <script setup lang="ts">
-import Breadcrumb from "@/components/Breadcrumb";
-import Hamburger from "@/components/Hamburger";
-import { computed } from "vue";
-import { useStore } from "vuex";
-import { useRoute, useRouter } from "vue-router";
-const $store = useStore();
-const $router = useRouter();
-const $route = useRoute();
-const sidebar = computed(() => $store.state.app.sidebar);
-const avatar = computed(() => $store.state.user.avatar);
-const toggleSideBar = () => {
-  $store.dispatch("app/toggleSideBar");
-};
-const logout = async () => {
-  await $store.dispatch("user/logout");
-  await $router.push(`/login?redirect=${$route.fullPath}`);
-};
+import { useRoute, useRouter } from 'vue-router'
+import { computed } from 'vue'
+import { useStore } from 'vuex'
+import { ElMessageBox } from 'element-plus'
+import { Hamburger, Breadcrumb } from '@/components'
+const store = useStore()
+
+const route = useRoute()
+const router = useRouter()
+
+const sidebar = computed(() => store.state.app.sidebar)
+const avatar = computed(() => store.state.user.avatar)
+
+/**
+ * 左侧菜单栏显示/隐藏
+ */
+function toggleSideBar() {
+  store.dispatch('app/toggleSideBar')
+}
+
+/**
+ * 注销
+ */
+function logout() {
+  ElMessageBox.confirm('确定注销并退出系统吗？', '提示', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'warning'
+  }).then(() => {
+    store.dispatch('user/logout').then(() => {
+      router.push(`/login?redirect=${route.fullPath}`)
+    })
+  })
+}
 </script>
 
 <style lang="scss" scoped>

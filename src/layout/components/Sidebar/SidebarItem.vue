@@ -1,119 +1,120 @@
+<script setup lang="ts">
+// import * as path from 'path'
+import path from 'path-browserify'
+import { isExternal } from '@/utils/validate'
+import AppLink from './Link.vue'
+
+import { translateRouteTitleI18n } from '@/utils/i18n'
+import SvgIcon from '@/components/SvgIcon/index.vue'
+import { ref } from 'vue'
+
+const props = defineProps({
+  /**
+   * 路由(eg:level_3_1)
+   */
+  item: {
+    type: Object,
+    required: true
+  },
+
+  /**
+   * 父层级完整路由路径(eg:/level/level_3/level_3_1)
+   */
+  basePath: {
+    type: String,
+    required: true
+  }
+})
+
+const onlyOneChild = ref() // 临时变量，唯一子路由
+
+/**
+ * 判断当前路由是否只有一个子路由
+ *
+ * 1：如果只有一个子路由： 返回 true
+ * 2：如果无子路由 ：返回 true
+ *
+ * @param children 子路由数组
+ * @param parent 当前路由
+ */
+function hasOneShowingChild(children = [], parent: any) {
+  // 需要显示的子路由数组
+  const showingChildren = children.filter((item: any) => {
+    if (item.meta?.hidden) {
+      return false // 过滤不显示的子路由
+    } else {
+      onlyOneChild.value = item // 唯一子路由赋值（多个子路由情况 onlyOneChild 变量是用不上的）
+      return true
+    }
+  })
+
+  // 1：如果只有一个子路由, 返回 true
+  if (showingChildren.length === 1) {
+    return true
+  }
+
+  // 2：如果无子路由, 复制当前路由信息作为其子路由，满足只拥有一个子路由的条件，所以返回 true
+  if (showingChildren.length === 0) {
+    onlyOneChild.value = { ...parent, path: '', noShowingChildren: true }
+    return true
+  }
+  return false
+}
+
+/**
+ * 解析路径
+ *
+ * @param routePath 路由路径
+ */
+function resolvePath(routePath: string) {
+  if (isExternal(routePath)) {
+    return routePath
+  }
+  if (isExternal(props.basePath)) {
+    return props.basePath
+  }
+  // 完整路径 = 父级路径(/level/level_3) + 路由路径
+  // 相对路径 → 绝对路径
+  return path.resolve(props.basePath, routePath)
+}
+</script>
 <template>
-  <template v-if="!item.hidden">
+  <div v-if="!item.meta || !item.meta.hidden">
+    <!-- 只包含一个子路由节点的路由，显示其【唯一子路由】 -->
     <template
       v-if="
         hasOneShowingChild(item.children, item) &&
-        (!onlyOneChild.children || onlyOneChild.noShowingChildren) &&
-        !item.alwaysShow
+        (!onlyOneChild.children || onlyOneChild.noShowingChildren)
       "
     >
       <app-link v-if="onlyOneChild.meta" :to="resolvePath(onlyOneChild.path)">
-        <el-menu-item
-          :index="resolvePath(onlyOneChild.path)"
-          :class="{ 'submenu-title-noDropdown': !isNest }"
-        >
-          <item
-            :icon="onlyOneChild.meta.icon || (item.meta && item.meta.icon)"
-            :title="onlyOneChild.meta.title"
-            :el-icon-name="onlyOneChild.meta.elIconName"
+        <el-menu-item :index="resolvePath(onlyOneChild.path)">
+          <svg-icon
+            v-if="onlyOneChild.meta && onlyOneChild.meta.icon"
+            :icon-class="onlyOneChild.meta.icon"
           />
+          <template #title>
+            {{ translateRouteTitleI18n(onlyOneChild.meta.title) }}
+          </template>
         </el-menu-item>
       </app-link>
     </template>
 
-    <el-sub-menu
-      v-else
-      ref="subMenu"
-      :index="resolvePath(item.path)"
-      popper-append-to-body
-    >
-      <template v-slot:title>
-        <item
-          v-if="item.meta"
-          :icon="item.meta && item.meta.icon"
-          :title="item.meta && item.meta.title"
-          :el-icon-name="item.meta && item.meta.elIconName"
-        />
+    <!-- 包含多个子路由  -->
+    <el-sub-menu v-else :index="resolvePath(item.path)" teleported>
+      <template #title>
+        <svg-icon v-if="item.meta && item.meta.icon" :icon-class="item.meta.icon" />
+        <span v-if="item.meta && item.meta.title">{{
+          translateRouteTitleI18n(item.meta.title)
+        }}</span>
       </template>
+
       <sidebar-item
         v-for="child in item.children"
         :key="child.path"
-        :is-nest="true"
         :item="child"
         :base-path="resolvePath(child.path)"
-        class="nest-menu"
       />
     </el-sub-menu>
-  </template>
+  </div>
 </template>
-
-<script lang="ts">
-// import path from "path";
-import { isExternal } from "@/utils/validate";
-import Item from "./Item.vue";
-import AppLink from "./Link.vue";
-import FixiOSBug from "./FixiOSBug";
-import { defineComponent } from "vue";
-import * as path from "path";
-
-export default defineComponent({
-  name: "SidebarItem",
-  components: { Item, AppLink },
-  mixins: [FixiOSBug],
-  props: {
-    // route object
-    item: {
-      type: Object,
-      required: true,
-    },
-    isNest: {
-      type: Boolean,
-      default: false,
-    },
-    basePath: {
-      type: String,
-      default: "",
-    },
-  },
-  data() {
-    return {
-      onlyOneChild: null,
-    };
-  },
-  methods: {
-    hasOneShowingChild(children = [], parent: any) {
-      const showingChildren = children.filter((item: any) => {
-        if (item.hidden) {
-          return false;
-        } else {
-          // Temp set(will be used if only has one showing child)
-          this.onlyOneChild = item;
-          return true;
-        }
-      });
-
-      // When there is only one child router, the child router is displayed by default
-      if (showingChildren.length === 1) {
-        return true;
-      }
-
-      // Show parent if there are no child router to display
-      if (showingChildren.length === 0) {
-        this.onlyOneChild = { ...parent, path: "", noShowingChildren: true };
-        return true;
-      }
-
-      return false;
-    },
-    resolvePath(routePath: string) {
-      if (isExternal(routePath)) {
-        return routePath;
-      }
-      if (isExternal(this.basePath)) {
-        return this.basePath;
-      }
-      return path.resolve(this.basePath, routePath);
-    },
-  },
-});
-</script>

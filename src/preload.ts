@@ -1,4 +1,3 @@
-
 // you can add some prehandlers here, for example
 
 // import { ipcMain } from "electron";

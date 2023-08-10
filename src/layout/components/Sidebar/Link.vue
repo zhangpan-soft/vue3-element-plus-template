@@ -1,20 +1,37 @@
-<template>
-  <component :is="type" v-bind="linkProps(to)">
-    <slot />
-  </component>
-</template>
-
 <script lang="ts" setup>
-import { isExternal as $isExternal } from "@/utils/validate";
-import { computed } from "vue";
+import { computed } from 'vue'
+import { isExternal } from '@/utils/validate'
+import { useRouter } from 'vue-router'
+import { useStore } from 'vuex'
+
+const store = useStore()
+
+const sidebar = computed(() => store.state.app.sidebar)
+const device = computed(() => store.state.app.device)
+
 const props = defineProps({
   to: {
     type: String,
-    required: true,
-  },
-});
-const isExternal = computed(() => $isExternal(props.to));
-const type = computed(() => (isExternal.value ? "a" : "router-link"));
-const linkProps = (to: any) =>
-  isExternal.value ? { href: to, target: "_blank", rel: "noopener" } : { to };
+    required: true
+  }
+})
+
+const router = useRouter()
+function push() {
+  if (device.value === 'mobile' && sidebar.value.opened) {
+    store.dispatch('app/closeSideBar', false)
+  }
+  router.push(props.to).catch((err) => {
+    console.error(err)
+  })
+}
 </script>
+
+<template>
+  <a v-if="isExternal(to)" :href="to" target="_blank" rel="noopener">
+    <slot />
+  </a>
+  <div v-else @click="push">
+    <slot />
+  </div>
+</template>

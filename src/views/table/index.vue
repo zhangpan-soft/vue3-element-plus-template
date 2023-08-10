@@ -9,44 +9,32 @@
       highlight-current-row
     >
       <el-table-column align="center" label="ID" width="95">
-        <template v-slot="scope">
+        <template #default="scope">
           {{ scope.$index }}
         </template>
       </el-table-column>
       <el-table-column label="Title">
-        <template v-slot="scope">
+        <template #default="scope">
           {{ scope.row.title }}
         </template>
       </el-table-column>
       <el-table-column label="Author" width="110" align="center">
-        <template v-slot="scope">
+        <template #default="scope">
           <span>{{ scope.row.author }}</span>
         </template>
       </el-table-column>
       <el-table-column label="Pageviews" width="110" align="center">
-        <template v-slot="scope">
+        <template #default="scope">
           {{ scope.row.pageviews }}
         </template>
       </el-table-column>
-      <el-table-column
-        class-name="status-col"
-        label="Status"
-        width="110"
-        align="center"
-      >
-        <template v-slot="scope">
-          <el-tag :type="statusFilter(scope.row.status)">{{
-            scope.row.status
-          }}</el-tag>
+      <el-table-column class-name="status-col" label="Status" width="110" align="center">
+        <template #default="scope">
+          <el-tag :type="statusFilter(scope.row.status)">{{ scope.row.status }}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column
-        align="center"
-        prop="created_at"
-        label="Display_time"
-        width="200"
-      >
-        <template v-slot="scope">
+      <el-table-column align="center" prop="created_at" label="Display_time" width="200">
+        <template #default="scope">
           <i class="el-icon-time" />
           <span>{{ scope.row.display_time }}</span>
         </template>
@@ -56,24 +44,24 @@
 </template>
 
 <script setup lang="ts">
-import { getList } from "@/api/table";
-import { ref } from "vue";
+import { getList } from '@/api/table'
+import { ref } from 'vue'
 const statusFilter = (value: any) => {
   const statusMap: Record<any, any> = {
-    published: "success",
-    draft: "gray",
-    deleted: "danger",
-  };
-  return statusMap[value];
-};
-const list = ref();
-const listLoading = ref(true);
+    published: 'success',
+    draft: 'gray',
+    deleted: 'danger'
+  }
+  return statusMap[value]
+}
+const list = ref()
+const listLoading = ref(true)
 const fetchData = () => {
-  listLoading.value = true;
+  listLoading.value = true
   getList({}).then((response: any) => {
-    list.value = response.data.items;
-    listLoading.value = false;
-  });
-};
-fetchData();
+    list.value = response.data.items
+    listLoading.value = false
+  })
+}
+fetchData()
 </script>
