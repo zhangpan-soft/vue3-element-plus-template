@@ -11,9 +11,11 @@ import icons from '@/plugins/icons'
 import i18n from '@/plugins/lang'
 import permission from '@/permission'
 
+
 if (process.env.NODE_ENV === 'development') {
   mockXHR()
 }
+
 createApp(App)
   .use(store) // 引入vuex
   .use(element) // 引入element plus 以及 vue图标

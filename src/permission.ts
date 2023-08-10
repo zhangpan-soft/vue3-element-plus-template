@@ -4,7 +4,7 @@ import NProgress from 'nprogress' // progress bar
 import 'nprogress/nprogress.css' // progress bar style
 import { getToken } from '@/utils/auth' // get token from cookie
 import getPageTitle from '@/utils/get-page-title'
-import { useStore } from 'vuex'
+import store from '@/store'
 
 export default {
   install(app: any) {
@@ -23,8 +23,6 @@ export default {
 
       // determine whether the user has logged in
       const hasToken = getToken()
-
-      const store = useStore()
 
       if (hasToken) {
         if (to.path === '/login') {

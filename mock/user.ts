@@ -72,6 +72,7 @@ export default [
   // user logout
   {
     url: '/vue3-admin-template/user/logout',
+
     type: 'post',
     response: (_: any) => {
       return {
