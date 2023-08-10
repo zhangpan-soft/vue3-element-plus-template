@@ -11,7 +11,6 @@ import icons from '@/plugins/icons'
 import i18n from '@/plugins/lang'
 import permission from '@/permission'
 
-
 if (process.env.NODE_ENV === 'development') {
   mockXHR()
 }

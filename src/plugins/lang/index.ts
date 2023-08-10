@@ -5,7 +5,6 @@ import enLocale from './package/en'
 import zhCnLocale from './package/zh-cn'
 import store from '@/store'
 
-
 const messages = {
   'zh-cn': {
     ...zhCnLocale

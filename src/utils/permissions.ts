@@ -1,7 +1,6 @@
 import ObjectUtils from '@/utils/object-utils'
 import store from '@/store'
 export default (permission: string): boolean => {
-  debugger
   // 如果permission为空, 则直接返回true
   if (ObjectUtils.isEmpty(permission)) return true
   // 获取权限列表
