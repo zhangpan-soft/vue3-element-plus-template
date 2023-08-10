@@ -3,7 +3,7 @@ import { createI18n } from 'vue-i18n'
 // 本地语言包
 import enLocale from './package/en'
 import zhCnLocale from './package/zh-cn'
-import store from '../../store'
+import store from '@/store'
 
 const messages = {
   'zh-cn': {

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-// import * as path from 'path'
 import path from 'path-browserify'
 import { isExternal } from '@/utils/validate'
 import AppLink from './Link.vue'
@@ -7,6 +6,7 @@ import AppLink from './Link.vue'
 import { translateRouteTitleI18n } from '@/utils/i18n'
 import SvgIcon from '@/components/SvgIcon/index.vue'
 import { ref } from 'vue'
+import hasPermission from '@/utils/permissions'
 
 const props = defineProps({
   /**
@@ -87,7 +87,10 @@ function resolvePath(routePath: string) {
         (!onlyOneChild.children || onlyOneChild.noShowingChildren)
       "
     >
-      <app-link v-if="onlyOneChild.meta" :to="resolvePath(onlyOneChild.path)">
+      <app-link
+        v-if="onlyOneChild.meta && hasPermission(onlyOneChild.meta.permission || '')"
+        :to="resolvePath(onlyOneChild.path)"
+      >
         <el-menu-item :index="resolvePath(onlyOneChild.path)">
           <svg-icon
             v-if="onlyOneChild.meta && onlyOneChild.meta.icon"
@@ -101,7 +104,11 @@ function resolvePath(routePath: string) {
     </template>
 
     <!-- 包含多个子路由  -->
-    <el-sub-menu v-else :index="resolvePath(item.path)" teleported>
+    <el-sub-menu
+      v-else-if="hasPermission(item.meta.permission || '')"
+      :index="resolvePath(item.path)"
+      teleported
+    >
       <template #title>
         <svg-icon v-if="item.meta && item.meta.icon" :icon-class="item.meta.icon" />
         <span v-if="item.meta && item.meta.title">{{

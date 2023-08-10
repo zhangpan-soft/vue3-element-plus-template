@@ -13,22 +13,23 @@
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
           <img :src="avatar + '?imageView2/1/w/80/h/80'" class="user-avatar" />
-          <i class="el-icon-caret-bottom" />
         </div>
-        <el-dropdown-menu v-slot="dropdown" class="user-dropdown">
-          <router-link to="/">
-            <el-dropdown-item> Home </el-dropdown-item>
-          </router-link>
-          <a target="_blank" href="https://github.com/zhangpan-soft/vue3-element-plus-template">
-            <el-dropdown-item>Github</el-dropdown-item>
-          </a>
-          <a target="_blank" href="https://github.com/zhangpan-soft/vue3-element-plus-template">
-            <el-dropdown-item>Docs</el-dropdown-item>
-          </a>
-          <el-dropdown-item divided @click="logout">
-            <span style="display: block">Log Out</span>
-          </el-dropdown-item>
-        </el-dropdown-menu>
+        <template #dropdown>
+          <el-dropdown-menu v-slot="dropdown" class="user-dropdown">
+            <router-link to="/">
+              <el-dropdown-item> Home </el-dropdown-item>
+            </router-link>
+            <a target="_blank" href="https://github.com/zhangpan-soft/vue3-element-plus-template">
+              <el-dropdown-item>Github</el-dropdown-item>
+            </a>
+            <a target="_blank" href="https://github.com/zhangpan-soft/vue3-element-plus-template">
+              <el-dropdown-item>Docs</el-dropdown-item>
+            </a>
+            <el-dropdown-item divided @click="logout">
+              <span style="display: block">Log Out</span>
+            </el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
       </el-dropdown>
     </div>
   </div>
@@ -40,6 +41,9 @@ import { computed } from 'vue'
 import { useStore } from 'vuex'
 import { ElMessageBox } from 'element-plus'
 import { Hamburger, Breadcrumb } from '@/components'
+import { ElDropdownItem } from 'element-plus'
+import { ArrowDown } from '@element-plus/icons-vue'
+
 const store = useStore()
 
 const route = useRoute()

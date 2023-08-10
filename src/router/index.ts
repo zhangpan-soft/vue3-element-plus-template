@@ -39,19 +39,19 @@ const routes: Array<RouteCustom> = [
     component: Layout,
     redirect: '/example/table',
     name: 'Example',
-    meta: { title: 'Example', icon: 'example' },
+    meta: { title: 'Example', icon: 'example', permission: 'example' },
     children: [
       {
         path: 'table',
         name: 'Table',
         component: () => import('@/views/table/index.vue'),
-        meta: { title: 'Table', icon: 'table' }
+        meta: { title: 'Table', icon: 'table', permission: 'example:table' }
       },
       {
         path: 'tree',
         name: 'Tree',
         component: () => import('@/views/tree/index.vue'),
-        meta: { title: 'Tree', icon: 'tree' }
+        meta: { title: 'Tree', icon: 'tree', permission: 'example:tree' }
       }
     ]
   },
@@ -137,6 +137,20 @@ const routes: Array<RouteCustom> = [
         meta: { title: 'External Link', icon: 'link' },
         // eslint-disable-next-line @typescript-eslint/no-empty-function
         component: () => {}
+      }
+    ]
+  },
+
+  {
+    path: '/tests',
+    component: Layout,
+    redirect: '/tests/test',
+    children: [
+      {
+        path: 'test',
+        name: 'Test1',
+        component: () => import('@/views/tests/index.vue'),
+        meta: { title: 'Test1', icon: 'valid_code' }
       }
     ]
   },

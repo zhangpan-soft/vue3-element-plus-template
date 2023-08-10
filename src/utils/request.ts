@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { ElMessageBox as MessageBox, ElMessage as Message } from 'element-plus'
-import store from '@/store'
 import { getToken } from '@/utils/auth'
+import store from '@/store'
 
 // create an axios instance
 const service = axios.create({

@@ -6,7 +6,10 @@ class ObjectUtils {
     if (typeof target === 'string') {
       return target.trim().length === 0
     }
-    return false
+    if (Array.isArray(target)) {
+      return target.length === 0
+    }
+    return Object.keys(target).length === 0
   }
 
   static concat(target = []) {

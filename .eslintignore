@@ -5,4 +5,3 @@
 /test/unit/coverage/
 /node_modules/*
 /dist*
-/src/main.ts
