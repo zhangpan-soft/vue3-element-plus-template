@@ -58,25 +58,25 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
-import { ElMessage } from "element-plus";
+import { ref } from 'vue'
+import { ElMessage } from 'element-plus'
 
 const form = ref({
-  name: "",
-  region: "",
-  date1: "",
-  date2: "",
+  name: '',
+  region: '',
+  date1: '',
+  date2: '',
   delivery: false,
   type: [],
-  resource: "",
-  desc: "",
-});
+  resource: '',
+  desc: ''
+})
 const onSubmit = () => {
-  ElMessage.info("submit!");
-};
+  ElMessage.info('submit!')
+}
 const onCancel = () => {
-  ElMessage.warning("cancel!");
-};
+  ElMessage.warning('cancel!')
+}
 </script>
 
 <style scoped>

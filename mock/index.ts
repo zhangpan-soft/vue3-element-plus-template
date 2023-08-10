@@ -1,9 +1,9 @@
-import Mock from "mockjs";
-import { param2Obj } from "./utils";
-import user from "./user";
-import table from "./table";
+import Mock from 'mockjs'
+import { param2Obj } from './utils'
+import user from './user'
+import table from './table'
 
-const mocks = [...user, ...table];
+const mocks = [...user, ...table]
 
 // for front mock
 // please use it cautiously, it will redefine XMLHttpRequest,
@@ -11,43 +11,39 @@ const mocks = [...user, ...table];
 function mockXHR() {
   // mock patch
   // https://github.com/nuysoft/Mock/issues/300
-  (Mock as any).XHR.prototype.proxy_send = (Mock as any).XHR.prototype.send;
-  (Mock as any).XHR.prototype.send = function (this: any, ...args: any[]) {
+  ;(Mock as any).XHR.prototype.proxy_send = (Mock as any).XHR.prototype.send
+  ;(Mock as any).XHR.prototype.send = function (this: any, ...args: any[]) {
     if (this.custom.xhr) {
-      this.custom.xhr.withCredentials = this.withCredentials || false;
+      this.custom.xhr.withCredentials = this.withCredentials || false
 
       if (this.responseType) {
-        this.custom.xhr.responseType = this.responseType;
+        this.custom.xhr.responseType = this.responseType
       }
     }
-    (this.proxy_send as any)(...args);
-  };
+    ;(this.proxy_send as any)(...args)
+  }
 
   function XHR2ExpressReqWrap(respond: any) {
     return function (options: any) {
-      let result: any = null;
+      let result: any = null
       if (respond instanceof Function) {
-        const { body, type, url } = options;
+        const { body, type, url } = options
         // https://expressjs.com/en/4x/api.html#req
         result = respond({
           method: type,
           body: JSON.parse(body),
-          query: param2Obj(url),
-        });
+          query: param2Obj(url)
+        })
       } else {
-        result = respond;
+        result = respond
       }
-      return Mock.mock(result);
-    };
+      return Mock.mock(result)
+    }
   }
 
   for (const i of mocks) {
-    Mock.mock(
-      new RegExp(i.url),
-      i.type || "get",
-      XHR2ExpressReqWrap(i.response)
-    );
+    Mock.mock(new RegExp(i.url), i.type || 'get', XHR2ExpressReqWrap(i.response))
   }
 }
 
-export { mocks, mockXHR };
+export { mocks, mockXHR }

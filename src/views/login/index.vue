@@ -43,9 +43,7 @@
           @native="handleLogin"
         />
         <span class="show-pwd" @click="showPwd">
-          <svg-icon
-            :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'"
-          />
+          <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
         </span>
       </el-form-item>
 
@@ -66,72 +64,72 @@
 </template>
 
 <script setup lang="ts">
-import { validUsername } from "@/utils/validate";
-import { nextTick, ref, watch } from "vue";
-import { useRoute, useRouter } from "vue-router";
-import { useStore } from "vuex";
+import { validUsername } from '@/utils/validate'
+import { nextTick, ref, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { useStore } from 'vuex'
 const validateUsername = (rule: any, value: string, callback: any) => {
   if (!validUsername(value)) {
-    callback(new Error("Please enter the correct user name"));
+    callback(new Error('Please enter the correct user name'))
   } else {
-    callback();
+    callback()
   }
-};
+}
 const validatePassword = (rule: any, value: string, callback: any) => {
   if (value.length < 6) {
-    callback(new Error("The password can not be less than 6 digits"));
+    callback(new Error('The password can not be less than 6 digits'))
   } else {
-    callback();
+    callback()
   }
-};
+}
 const loginForm = ref({
-  username: "admin",
-  password: "111111",
-});
+  username: 'admin',
+  password: '111111'
+})
 const loginRules = ref({
-  username: [{ required: true, trigger: "blur", validator: validateUsername }],
-  password: [{ required: true, trigger: "blur", validator: validatePassword }],
-});
-const passwordType = ref("password");
-const loading = ref(false);
-const redirect = ref("");
-const $route = useRoute();
+  username: [{ required: true, trigger: 'blur', validator: validateUsername }],
+  password: [{ required: true, trigger: 'blur', validator: validatePassword }]
+})
+const passwordType = ref('password')
+const loading = ref(false)
+const redirect = ref('')
+const $route = useRoute()
 watch($route, (val) => {
-  redirect.value = (val.query.redirect || "/") as string;
-});
-const password = ref();
+  redirect.value = (val.query.redirect || '/') as string
+})
+const password = ref()
 const showPwd = () => {
-  if (passwordType.value === "password") {
-    passwordType.value = "";
+  if (passwordType.value === 'password') {
+    passwordType.value = ''
   } else {
-    passwordType.value = "password";
+    passwordType.value = 'password'
   }
   nextTick(() => {
-    password.value.focus();
-  });
-};
-const loginFormRef = ref();
-const $store = useStore();
-const $router = useRouter();
+    password.value.focus()
+  })
+}
+const loginFormRef = ref()
+const $store = useStore()
+const $router = useRouter()
 const handleLogin = () => {
   loginFormRef.value.validate((valid: boolean) => {
     if (valid) {
-      loading.value = true;
+      loading.value = true
       $store
-        .dispatch("user/login", loginForm.value)
+        .dispatch('user/login', loginForm.value)
         .then(() => {
-          $router.push({ path: redirect.value || "/" });
-          loading.value = false;
+          $router.push({ path: redirect.value || '/' })
+          loading.value = false
         })
         .catch(() => {
-          loading.value = false;
-        });
+          loading.value = false
+        })
     } else {
-      console.log("error submit!!");
-      return false;
+      console.log('error submit!!')
+      return false
     }
-  });
-};
+  })
+}
 </script>
 
 <style lang="scss">

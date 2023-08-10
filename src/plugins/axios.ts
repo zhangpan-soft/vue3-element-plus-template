@@ -1,8 +1,8 @@
-"use strict";
+'use strict'
 
-import request from "@/utils/request";
+import request from '@/utils/request'
 const install = (app: any) => {
-  app.config.globalProperties.$axios = request;
-};
+  app.config.globalProperties.$axios = request
+}
 
-export default { install };
+export default { install }
