@@ -25,7 +25,7 @@ const users: any = {
 export default [
   // user login
   {
-    url: '/vue-admin-template/user/login',
+    url: '/vue3-admin-template/user/login',
     type: 'post',
     response: (config: any) => {
       const { username } = config.body
@@ -48,7 +48,7 @@ export default [
 
   // get user info
   {
-    url: '/vue-admin-template/user/info.*',
+    url: '/vue3-admin-template/user/info.*',
     type: 'get',
     response: (config: any) => {
       const { token } = config.query
@@ -71,12 +71,31 @@ export default [
 
   // user logout
   {
-    url: '/vue-admin-template/user/logout',
+    url: '/vue3-admin-template/user/logout',
+
     type: 'post',
     response: (_: any) => {
       return {
         code: 20000,
         data: 'success'
+      }
+    }
+  },
+
+  {
+    url: '/vue3-admin-template/user/permission/list',
+    type: 'get',
+    response: (config: any) => {
+      const { token } = config.query
+      if (token === 'admin-token') {
+        return {
+          code: 20000,
+          data: ['*:**:*']
+        }
+      }
+      return {
+        code: 20000,
+        data: ['dashboard:**:*', 'test:**:*']
       }
     }
   }

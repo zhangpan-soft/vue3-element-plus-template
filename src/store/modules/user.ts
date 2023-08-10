@@ -1,4 +1,4 @@
-import { login, logout, getInfo } from '@/api/user'
+import { login, logout, getInfo, getPermissions } from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import { resetRouter } from '@/router'
 
@@ -6,7 +6,10 @@ const getDefaultState = () => {
   return {
     token: getToken(),
     name: '',
-    avatar: ''
+    avatar: '',
+    permissions: localStorage.getItem('permissions')
+      ? JSON.parse(localStorage.getItem('permissions') as string)
+      : []
   }
 }
 
@@ -24,6 +27,11 @@ const mutations = {
   },
   SET_AVATAR: (state: any, avatar: string) => {
     state.avatar = avatar
+  },
+  SET_PERMISSIONS: (state: any, permissions: string[]) => {
+    debugger
+    state.permissions = permissions
+    localStorage.setItem('permissions', JSON.stringify(permissions))
   }
 }
 
@@ -37,7 +45,10 @@ const actions = {
           const { data } = response
           commit('SET_TOKEN', data.token)
           setToken(data.token)
-          resolve('')
+          getPermissions(data.token).then((response) => {
+            commit('SET_PERMISSIONS', response.data)
+            resolve(data.token)
+          })
         })
         .catch((error) => {
           reject(error)
@@ -76,6 +87,7 @@ const actions = {
           removeToken() // must remove  token  first
           resetRouter()
           commit('RESET_STATE')
+          commit('SET_PERMISSIONS', [])
           resolve('')
         })
         .catch((error) => {
@@ -91,6 +103,10 @@ const actions = {
       commit('RESET_STATE')
       resolve('')
     })
+  },
+
+  setPermissions({ commit }: any, permissions: string[]) {
+    commit('SET_PERMISSIONS', permissions)
   }
 }
 

@@ -149,32 +149,45 @@ $cursor: #fff;
 /* reset element-ui css */
 .login-container {
   .el-input {
-    display: inline-block;
-    height: 47px;
-    width: 85%;
+    //display: inline-block !important;
+    height: 47px !important;
+    width: 85% !important;
+    display: inline-flex !important;
+    background: rgb(0, 0, 0, 0) !important;
 
-    input {
-      background: transparent;
-      border: 0px;
-      -webkit-appearance: none;
-      border-radius: 0px;
-      padding: 12px 5px 12px 15px;
-      color: $light_gray;
-      height: 47px;
-      caret-color: $cursor;
-
-      &:-webkit-autofill {
-        box-shadow: 0 0 0px 1000px $bg inset !important;
-        -webkit-text-fill-color: $cursor !important;
-      }
+    .el-input--normal {
+      background: transparent !important;
     }
+    .el-input__wrapper {
+      background: transparent !important;
+      box-shadow: none !important;
+    }
+    input {
+      border-color: #1f2d3d;
+    }
+
+    //input {
+    //  background: transparent !important;
+    //  border: 0px !important;
+    //  -webkit-appearance: none !important;
+    //  border-radius: 0px !important;
+    //  padding: 12px 5px 12px 15px !important;
+    //  color: $light_gray !important;
+    //  height: 47px !important;
+    //  caret-color: $cursor;
+    //
+    //  &:-webkit-autofill {
+    //    box-shadow: 0 0 0px 1000px $bg inset !important;
+    //    -webkit-text-fill-color: $cursor !important;
+    //  }
+    //}
   }
 
   .el-form-item {
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    background: rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
-    color: #454545;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    background: rgba(0, 0, 0, 0.1) !important;
+    border-radius: 5px !important;
+    color: #454545 !important;
   }
 }
 </style>

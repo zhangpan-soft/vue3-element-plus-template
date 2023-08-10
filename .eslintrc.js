@@ -33,6 +33,7 @@ module.exports = {
     "vue/multi-word-component-names": 0,
     "@typescript-eslint/no-explicit-any": "off", // 关闭any类型检测
     "vue/no-unused-vars": "off",
+    indent: ["error", 2]
   },
   overrides: [
     {
