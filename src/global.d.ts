@@ -41,7 +41,7 @@ declare global {
     params(nameValues?: Record<string, any>): IHttpRequestBuilder
   }
 
-  type IHttpBody = {
+  type IHttpBody = IHttpParam & {
     json(json: string): IHttpRequestBuilder
     json(json: Record<string, any>): IHttpRequestBuilder
     json(json: any): IHttpRequestBuilder
