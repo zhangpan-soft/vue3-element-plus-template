@@ -402,6 +402,28 @@ class HttpResponse implements IHttpResponse {
   private __requestUrls__: string[] = []
   private __status__ = 0
 
+  firstHeader(name: string): string {
+    if (ObjectUtils.isEmpty(name)) return ''
+    const header = this.header(name)
+    if (typeof header === 'string') return header
+    if (Array.isArray(header)) {
+      if (header.length > 0) return header[0]
+      return ''
+    }
+    return header.toString()
+  }
+
+  lastHeader(name: string): string {
+    if (ObjectUtils.isEmpty(name)) return ''
+    const header = this.header(name)
+    if (typeof header === 'string') return header
+    if (Array.isArray(header)) {
+      if (header.length > 0) return header[header.length - 1]
+      return ''
+    }
+    return header.toString()
+  }
+
   body(): any {
     return JSON.parse(this.stringify())
   }
@@ -504,8 +526,8 @@ class HttpResponse implements IHttpResponse {
     return this.__cookies__[name] || ''
   }
 
-  header(name: string, value: string): HttpResponse
-  header(name: string): string
+  header(name: string, value: any): HttpResponse
+  header(name: string): any
   header(name: string, value?: any): string | HttpResponse {
     name = name.trim().toLowerCase()
     if (!value) return this.__headers__[name]

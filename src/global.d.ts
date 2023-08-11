@@ -71,6 +71,8 @@ declare global {
     cookies(): Record<string, string>
     cookie(name: string): string
     header(name: string): any
+    firstHeader(name: string): string
+    lastHeader(name: string): string
     stringify(): string
     isSuccess(): boolean
     hasContent(): boolean
