@@ -397,7 +397,7 @@ class HttpRequest implements IHttpRequest {
 class HttpResponse implements IHttpResponse {
   private __content__?: Buffer
   private __cookies__: Record<string, string> = {}
-  private __headers__: Record<string, string> = {}
+  private __headers__: Record<string, any> = {}
   private __error__?: any
   private __requestUrls__: string[] = []
   private __status__ = 0
@@ -416,14 +416,9 @@ class HttpResponse implements IHttpResponse {
     return this
   }
 
-  cookies(): Record<string, string>
-  cookies(cookies: Record<string, string>): HttpResponse
-  cookies(cookies?: Record<string, string>): Record<string, string> | HttpResponse {
-    if (!cookies) return this.__cookies__
-    for (const cookiesKey in cookies) {
-      this.__cookies__[cookiesKey] = cookies[cookiesKey]
-    }
-    return this
+  cookies(): Record<string, string> {
+    this.__cookies__ = CookieUtils.parse(this.__headers__)
+    return this.__cookies__
   }
 
   error(): any
@@ -443,12 +438,31 @@ class HttpResponse implements IHttpResponse {
     return this.__error__
   }
 
-  headers(): Record<string, string>
-  headers(headers: Record<string, string>): HttpResponse
-  headers(headers?: Record<string, string>): Record<string, string> | HttpResponse {
+  headers(): Record<string, any>
+  headers(headers: Record<string, any>): HttpResponse
+  headers(headers?: Record<string, any>): Record<string, any> | HttpResponse {
     if (!headers) return this.__headers__
+    // 遍历
     for (const headersKey in headers) {
-      this.__headers__[headersKey.trim().toLowerCase()] = headers[headersKey]
+      // 获取已缓存的值
+      const _ = this.__headers__[headersKey.toLowerCase()]
+      // 如果为空, 则将新的值赋值给
+      if (ObjectUtils.isEmpty(_)) {
+        this.__headers__[headersKey.toLowerCase()] = headers[headersKey]
+        continue
+      }
+      // 否则, 如果_不为数组, 重置为数组
+      if (!Array.isArray(_)) {
+        this.__headers__[headersKey.toLowerCase()] = [_]
+      }
+      // 如果新值为数组,则合并数组
+      if (Array.isArray(headers[headersKey])) {
+        this.__headers__[headersKey.toLowerCase()] = this.__headers__[
+          headersKey.toLowerCase()
+        ].concat(headers[headersKey])
+      } else {
+        this.__headers__[headersKey.toLowerCase()].push(headers[headersKey])
+      }
     }
     return this
   }
@@ -486,17 +500,13 @@ class HttpResponse implements IHttpResponse {
     return this.content().toString()
   }
 
-  cookie(name: string, value: string): HttpResponse
-  cookie(name: string): string
-  cookie(name: string, value?: string): string | HttpResponse {
-    if (!value) return this.__cookies__[name]
-    this.__cookies__[name] = value
-    return this
+  cookie(name: string): string {
+    return this.__cookies__[name] || ''
   }
 
   header(name: string, value: string): HttpResponse
   header(name: string): string
-  header(name: string, value?: string): string | HttpResponse {
+  header(name: string, value?: any): string | HttpResponse {
     name = name.trim().toLowerCase()
     if (!value) return this.__headers__[name]
     this.__headers__[name] = value

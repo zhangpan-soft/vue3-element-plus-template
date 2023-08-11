@@ -67,10 +67,10 @@ declare global {
     status(): number
     content(): Buffer
     requestUrls(): string[] | string
-    headers(): Record<string, string>
+    headers(): Record<string, any>
     cookies(): Record<string, string>
     cookie(name: string): string
-    header(name: string): string
+    header(name: string): any
     stringify(): string
     isSuccess(): boolean
     hasContent(): boolean
