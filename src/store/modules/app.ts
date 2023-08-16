@@ -1,10 +1,10 @@
-import Cookies from 'js-cookie'
 import defaultSettings from '@/settings'
 import { zhCn, en } from 'element-plus/es/locale/index'
+import { SidebarStatusKey } from '@/store/names'
 
 const state: any = {
   sidebar: {
-    opened: Cookies.get('sidebarStatus') !== 'closed',
+    opened: localStorage.getItem(SidebarStatusKey) !== 'closed',
     withoutAnimation: false
   },
   device: 'desktop',
@@ -19,13 +19,13 @@ const mutations = {
     state.sidebar.opened = !state.sidebar.opened
     state.sidebar.withoutAnimation = false
     if (state.sidebar.opened) {
-      Cookies.set('sidebarStatus', 'opened')
+      localStorage.setItem(SidebarStatusKey, 'opened')
     } else {
-      Cookies.set('sidebarStatus', 'closed')
+      localStorage.setItem(SidebarStatusKey, 'closed')
     }
   },
   CLOSE_SIDEBAR: (state: any, withoutAnimation: boolean) => {
-    Cookies.set('sidebarStatus', 'opened')
+    localStorage.setItem(SidebarStatusKey, 'opened')
     state.sidebar.opened = false
     state.sidebar.withoutAnimation = withoutAnimation
   },
@@ -33,7 +33,7 @@ const mutations = {
     state.device = device
   },
   OPEN_SIDEBAR: (state: any, withoutAnimation: boolean) => {
-    Cookies.set('sidebarStatus', 'closed')
+    localStorage.setItem(SidebarStatusKey, 'closed')
     state.sidebar.opened = true
     state.sidebar.withoutAnimation = withoutAnimation
   }
