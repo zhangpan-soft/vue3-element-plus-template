@@ -25,9 +25,10 @@ export default (permission: string): boolean => {
       } else if (s === '**') {
         reg += '([:]{0,1}[0-9a-zA-Z]+[:]{0,1})'
       } else {
-        reg += s
+        reg += s + ':'
       }
     }
+    if (reg.endsWith(':')) reg = reg.substring(0, reg.length - 1)
     // 拼接结束符
     reg += '$'
     // 匹配
