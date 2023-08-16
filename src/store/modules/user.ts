@@ -1,14 +1,15 @@
 import { login, logout, getInfo, getPermissions } from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import { resetRouter } from '@/router'
+import { PermissionKey } from '@/store/names'
 
 const getDefaultState = () => {
   return {
     token: getToken(),
     name: '',
     avatar: '',
-    permissions: localStorage.getItem('permissions')
-      ? JSON.parse(localStorage.getItem('permissions') as string)
+    permissions: localStorage.getItem(PermissionKey)
+      ? JSON.parse(localStorage.getItem(PermissionKey) as string)
       : []
   }
 }
@@ -31,7 +32,7 @@ const mutations = {
   SET_PERMISSIONS: (state: any, permissions: string[]) => {
     debugger
     state.permissions = permissions
-    localStorage.setItem('permissions', JSON.stringify(permissions))
+    localStorage.setItem(PermissionKey, JSON.stringify(permissions))
   }
 }
 
