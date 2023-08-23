@@ -29,7 +29,7 @@ const routes: Array<RouteCustom> = [
         path: 'dashboard',
         name: 'Dashboard',
         component: () => import('@/views/dashboard/index.vue'),
-        meta: { title: 'Dashboard', icon: 'dashboard' }
+        meta: { title: 'route.dashboard', icon: 'dashboard' }
       }
     ]
   },
@@ -39,19 +39,19 @@ const routes: Array<RouteCustom> = [
     component: Layout,
     redirect: '/example/table',
     name: 'Example',
-    meta: { title: 'Example', icon: 'example', permission: 'example' },
+    meta: { title: 'route.example', icon: 'example', permission: 'example' },
     children: [
       {
         path: 'table',
         name: 'Table',
         component: () => import('@/views/table/index.vue'),
-        meta: { title: 'Table', icon: 'table', permission: 'example:table' }
+        meta: { title: 'route.table', icon: 'table', permission: 'example:table' }
       },
       {
         path: 'tree',
         name: 'Tree',
         component: () => import('@/views/tree/index.vue'),
-        meta: { title: 'Tree', icon: 'tree', permission: 'example:tree' }
+        meta: { title: 'route.tree', icon: 'tree', permission: 'example:tree' }
       }
     ]
   },
@@ -64,7 +64,7 @@ const routes: Array<RouteCustom> = [
         path: 'index',
         name: 'Form',
         component: () => import('@/views/form/index.vue'),
-        meta: { title: 'Form', icon: 'form' }
+        meta: { title: 'route.form', icon: 'form' }
       }
     ]
   },
@@ -75,7 +75,7 @@ const routes: Array<RouteCustom> = [
     redirect: '/nested/menu1',
     name: 'Nested',
     meta: {
-      title: 'Nested',
+      title: 'route.nested',
       icon: 'nested'
     },
     children: [
@@ -83,31 +83,31 @@ const routes: Array<RouteCustom> = [
         path: 'menu1',
         component: () => import('@/views/nested/menu1/index.vue'), // Parent router-view
         name: 'Menu1',
-        meta: { title: 'Menu1' },
+        meta: { title: 'route.menu1' },
         children: [
           {
             path: 'menu1-1',
             component: () => import('@/views/nested/menu1/menu1-1/index.vue'),
             name: 'Menu1-1',
-            meta: { title: 'Menu1-1' }
+            meta: { title: 'route.menu1_1' }
           },
           {
             path: 'menu1-2',
             component: () => import('@/views/nested/menu1/menu1-2/index.vue'),
             name: 'Menu1-2',
-            meta: { title: 'Menu1-2' },
+            meta: { title: 'route.menu1_2' },
             children: [
               {
                 path: 'menu1-2-1',
                 component: () => import('@/views/nested/menu1/menu1-2/menu1-2-1/index.vue'),
                 name: 'Menu1-2-1',
-                meta: { title: 'Menu1-2-1' }
+                meta: { title: 'route.menu1_2_1' }
               },
               {
                 path: 'menu1-2-2',
                 component: () => import('@/views/nested/menu1/menu1-2/menu1-2-2/index.vue'),
                 name: 'Menu1-2-2',
-                meta: { title: 'Menu1-2-2' }
+                meta: { title: 'route.menu1_2_2' }
               }
             ]
           },
@@ -115,7 +115,7 @@ const routes: Array<RouteCustom> = [
             path: 'menu1-3',
             component: () => import('@/views/nested/menu1/menu1-3/index.vue'),
             name: 'Menu1-3',
-            meta: { title: 'Menu1-3' }
+            meta: { title: 'route.menu1_3' }
           }
         ]
       },
@@ -123,7 +123,7 @@ const routes: Array<RouteCustom> = [
         path: 'menu2',
         component: () => import('@/views/nested/menu2/index.vue'),
         name: 'Menu2',
-        meta: { title: 'menu2' }
+        meta: { title: 'route.menu2' }
       }
     ]
   },
@@ -134,7 +134,7 @@ const routes: Array<RouteCustom> = [
     children: [
       {
         path: 'https://panjiachen.github.io/vue-element-admin-site/#/',
-        meta: { title: 'External Link', icon: 'link' },
+        meta: { title: 'route.externalLink', icon: 'link' },
         // eslint-disable-next-line @typescript-eslint/no-empty-function
         component: () => {}
       }
@@ -150,7 +150,22 @@ const routes: Array<RouteCustom> = [
         path: 'test',
         name: 'Test1',
         component: () => import('@/views/tests/index.vue'),
-        meta: { title: 'Test1', icon: 'valid_code' }
+        meta: { title: 'route.test1', icon: 'valid_code' }
+      }
+    ]
+  },
+
+  {
+    path: '/system',
+    component: Layout,
+    meta: { title: 'route.system', icon: 'system' },
+    redirect: '/system/settings',
+    children: [
+      {
+        path: 'settings',
+        name: 'Settings',
+        component: () => import('@/views/system/settings/index.vue'),
+        meta: { title: 'route.settings', icon: 'system' }
       }
     ]
   },

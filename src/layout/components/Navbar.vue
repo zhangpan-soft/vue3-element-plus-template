@@ -17,16 +17,19 @@
         <template #dropdown>
           <el-dropdown-menu v-slot="dropdown" class="user-dropdown">
             <router-link to="/">
-              <el-dropdown-item> Home </el-dropdown-item>
+              <el-dropdown-item>{{ $t('navbar.dashboard') }}</el-dropdown-item>
             </router-link>
             <a target="_blank" href="https://github.com/zhangpan-soft/vue3-element-plus-template">
-              <el-dropdown-item>Github</el-dropdown-item>
+              <el-dropdown-item>{{ $t('navbar.github') }}</el-dropdown-item>
             </a>
             <a target="_blank" href="https://github.com/zhangpan-soft/vue3-element-plus-template">
-              <el-dropdown-item>Docs</el-dropdown-item>
+              <el-dropdown-item>{{ $t('navbar.document') }}</el-dropdown-item>
             </a>
+            <el-dropdown-item divided @click="settings">
+              <span style="display: block">{{ $t('navbar.settings') }}</span>
+            </el-dropdown-item>
             <el-dropdown-item divided @click="logout">
-              <span style="display: block">Log Out</span>
+              <span style="display: block">{{ $t('navbar.logout') }}</span>
             </el-dropdown-item>
           </el-dropdown-menu>
         </template>
@@ -72,6 +75,10 @@ function logout() {
       router.push(`/login?redirect=${route.fullPath}`)
     })
   })
+}
+
+function settings() {
+  router.push('/settings')
 }
 </script>
 

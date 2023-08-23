@@ -5,9 +5,9 @@
         <span
           v-if="item.redirect === 'noRedirect' || index === breadcrumbs.length - 1"
           class="no-redirect"
-          >{{ item.meta.title }}</span
+          >{{ $t(item.meta.title) }}</span
         >
-        <a v-else @click.prevent="handleLink(item)">{{ item.meta.title }}</a>
+        <a v-else @click.prevent="handleLink(item)">{{ $t(item.meta.title) }}</a>
       </el-breadcrumb-item>
     </transition-group>
   </el-breadcrumb>
@@ -17,6 +17,7 @@
 import { onBeforeMount, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { compile } from 'path-to-regexp'
+import { useI18n } from 'vue-i18n'
 const router = useRouter()
 
 const currentRoute = useRoute()
@@ -32,7 +33,7 @@ function getBreadcrumb() {
   let matched = currentRoute.matched.filter((item) => item.meta && item.meta.title)
   const first = matched[0]
   if (!isDashboard(first)) {
-    matched = [{ path: '/dashboard', meta: { title: 'Dashboard' } } as any].concat(matched)
+    matched = [{ path: '/dashboard', meta: { title: 'route.dashboard' } } as any].concat(matched)
   }
   breadcrumbs.value = matched.filter((item) => {
     return item.meta && item.meta.title && item.meta.breadcrumb !== false

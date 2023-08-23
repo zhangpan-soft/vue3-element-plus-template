@@ -9,7 +9,6 @@ const store = useStore()
 
 const currRoute = useRoute()
 const sidebarLogo = computed(() => store.state.settings.sidebarLogo)
-const $router = useRouter()
 </script>
 
 <template>
