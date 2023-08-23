@@ -3,7 +3,6 @@ import path from 'path-browserify'
 import { isExternal } from '@/utils/validate'
 import AppLink from './Link.vue'
 
-import { translateRouteTitleI18n } from '@/utils/i18n'
 import SvgIcon from '@/components/SvgIcon/index.vue'
 import { ref } from 'vue'
 import hasPermission from '@/utils/permissions'
@@ -97,7 +96,7 @@ function resolvePath(routePath: string) {
             :icon-class="onlyOneChild.meta.icon"
           />
           <template #title>
-            {{ translateRouteTitleI18n(onlyOneChild.meta.title) }}
+            {{ $t(onlyOneChild.meta.title) }}
           </template>
         </el-menu-item>
       </app-link>
@@ -111,9 +110,9 @@ function resolvePath(routePath: string) {
     >
       <template #title>
         <svg-icon v-if="item.meta && item.meta.icon" :icon-class="item.meta.icon" />
-        <span v-if="item.meta && item.meta.title">{{
-          translateRouteTitleI18n(item.meta.title)
-        }}</span>
+        <span v-if="item.meta && item.meta.title">
+          {{ $t(item.meta.title) }}
+        </span>
       </template>
 
       <sidebar-item

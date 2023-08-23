@@ -5,6 +5,7 @@ import 'nprogress/nprogress.css' // progress bar style
 import { getToken } from '@/utils/auth' // get token from cookie
 import getPageTitle from '@/utils/get-page-title'
 import store from '@/store'
+import i18n from '@/plugins/lang'
 
 export default {
   install(app: any) {
@@ -19,7 +20,7 @@ export default {
       // set page title
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
-      document.title = getPageTitle(to.meta.title)
+      document.title = getPageTitle(i18n.global.t(to.meta.title))
 
       // determine whether the user has logged in
       const hasToken = getToken()

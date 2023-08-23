@@ -1,6 +1,6 @@
 import defaultSettings from '@/settings'
 import { zhCn, en } from 'element-plus/es/locale/index'
-import { SidebarStatusKey } from '@/store/names'
+import { LocaleKey, SidebarStatusKey } from '@/store/names'
 
 const state: any = {
   sidebar: {
@@ -10,7 +10,7 @@ const state: any = {
   device: 'desktop',
   menuUnitOpen: process.env.VUE_MENU_UNIT_OPEN || true,
   language: defaultSettings.language,
-  locale: defaultSettings.language === 'en' ? en : zhCn,
+  locale: localStorage.getItem(LocaleKey) || defaultSettings.language,
   size: defaultSettings.size
 }
 
@@ -36,6 +36,10 @@ const mutations = {
     localStorage.setItem(SidebarStatusKey, 'closed')
     state.sidebar.opened = true
     state.sidebar.withoutAnimation = withoutAnimation
+  },
+  SET_LOCALE: (state: any, locale: string) => {
+    state.locale = locale
+    localStorage.setItem(LocaleKey, locale)
   }
 }
 
@@ -51,6 +55,9 @@ const actions = {
   },
   toggleDevice({ commit }: any, device: string) {
     commit('TOGGLE_DEVICE', device)
+  },
+  setLocale({ commit }: any, locale: string) {
+    commit('SET_LOCALE', locale)
   }
 }
 

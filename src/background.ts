@@ -1,6 +1,6 @@
 'use strict'
 
-import { app, protocol, BrowserWindow, ipcMain } from 'electron'
+import { app, protocol, BrowserWindow, ipcMain, screen } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer'
 import * as path from 'path'
@@ -14,11 +14,15 @@ protocol.registerSchemesAsPrivileged([
 async function createWindow() {
   // Create the browser window.
   let win: any = new BrowserWindow({
-    width: 1366,
-    height: 768,
-    backgroundColor: '#ffffff',
-    resizable: false,
-    title: process.env.ELECTRON_TITLE,
+    width: screen.getPrimaryDisplay().workAreaSize.width, // 默认宽度为屏幕宽度
+    height: screen.getPrimaryDisplay().workAreaSize.height, // 默认高度为屏幕高度
+    minimizable: true, // 是否可以最小化
+    maximizable: true, // 是否可以最大化
+    minWidth: process.env.ELECTRON_MIN_WIDTH ? parseInt(process.env.ELECTRON_MIN_WIDTH) : 800, // 最小宽度
+    minHeight: process.env.ELECTRON_MIN_HEIGHT ? parseInt(process.env.ELECTRON_MIN_HEIGHT) : 600, // 最小高度
+    backgroundColor: '#ffffff', // 窗口背景色
+    resizable: true, // 是否可以调整窗口大小
+    title: process.env.ELECTRON_TITLE, // 窗口标题
     webPreferences: {
       // Use pluginOptions.nodeIntegration, leave this alone
       // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
