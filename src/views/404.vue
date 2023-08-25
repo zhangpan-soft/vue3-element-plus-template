@@ -15,10 +15,9 @@
         </div>
         <div class="bullshit__headline">{{ message }}</div>
         <div class="bullshit__info">
-          Please check that the URL you entered is correct, or click the button below to return to
-          the homepage.
+          {{ $t('views.notFount.bullshitInfo') }}
         </div>
-        <a href="" class="bullshit__return-home">Back to home</a>
+        <a href="" class="bullshit__return-home">{{ $t('views.notFount.bullshitReturnHome') }}</a>
       </div>
     </div>
   </div>
@@ -26,8 +25,11 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 
-const message = computed(() => 'The webmaster said that you can not enter this page...')
+const i18n = useI18n()
+
+const message = computed(() => i18n.t('views.notFount.message'))
 </script>
 
 <style lang="scss" scoped>

@@ -18,9 +18,7 @@ export default {
       NProgress.start()
 
       // set page title
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      document.title = getPageTitle(i18n.global.t(to.meta.title))
+      document.title = getPageTitle(i18n.global.t((to.meta.title as string) || ''))
 
       // determine whether the user has logged in
       const hasToken = getToken()

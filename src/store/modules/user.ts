@@ -30,7 +30,6 @@ const mutations = {
     state.avatar = avatar
   },
   SET_PERMISSIONS: (state: any, permissions: string[]) => {
-    debugger
     state.permissions = permissions
     localStorage.setItem(PermissionKey, JSON.stringify(permissions))
   }

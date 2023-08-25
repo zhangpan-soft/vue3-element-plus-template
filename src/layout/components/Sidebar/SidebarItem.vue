@@ -39,7 +39,7 @@ const onlyOneChild = ref() // 临时变量，唯一子路由
 function hasOneShowingChild(children = [], parent: any) {
   // 需要显示的子路由数组
   const showingChildren = children.filter((item: any) => {
-    if (item.meta?.hidden) {
+    if (item?.hidden) {
       return false // 过滤不显示的子路由
     } else {
       onlyOneChild.value = item // 唯一子路由赋值（多个子路由情况 onlyOneChild 变量是用不上的）
