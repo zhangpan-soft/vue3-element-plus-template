@@ -9,6 +9,7 @@ import { useStore } from 'vuex'
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
 import getPageTitle from '@/utils/get-page-title'
+import { onMounted } from 'vue'
 const store = useStore()
 const i18n = useI18n()
 const route = useRoute()
@@ -19,7 +20,7 @@ store.watch(
   (value) => {
     i18n.locale.value = value
     if (route.meta && route.meta.title) {
-      document.title = getPageTitle(i18n.t(route.meta.title as string))
+      document.title = getPageTitle(i18n.t((route.meta.title as string) || ''))
     }
   }
 )

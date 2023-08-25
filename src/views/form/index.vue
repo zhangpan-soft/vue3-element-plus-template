@@ -1,21 +1,25 @@
 <template>
   <div class="app-container">
-    <el-form ref="form" :model="form" label-width="120px">
-      <el-form-item label="Activity name">
+    <el-form ref="formRef" :model="form" label-width="120px">
+      <el-form-item :label="$t('views.form.activityName')">
         <el-input v-model="form.name" />
       </el-form-item>
-      <el-form-item label="Activity zone">
-        <el-select v-model="form.region" placeholder="please select your zone">
-          <el-option label="Zone one" value="shanghai" />
-          <el-option label="Zone two" value="beijing" />
+      <el-form-item :label="$t('views.form.activityZone')">
+        <el-select v-model="form.region" :placeholder="$t('views.form.activityZonePlaceholder')">
+          <el-option
+            v-for="item in i18n.messages.value[i18n.locale.value].views.form.activityZoneOptions"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          />
         </el-select>
       </el-form-item>
-      <el-form-item label="Activity time">
+      <el-form-item :label="$t('views.form.activityTime')">
         <el-col :span="11">
           <el-date-picker
             v-model="form.date1"
             type="date"
-            placeholder="Pick a date"
+            :placeholder="$t('views.form.activityTimePlaceholder')"
             style="width: 100%"
           />
         </el-col>
@@ -24,34 +28,41 @@
           <el-time-picker
             v-model="form.date2"
             type="fixed-time"
-            placeholder="Pick a time"
+            :placeholder="$t('views.form.activityTimePlaceholder')"
             style="width: 100%"
           />
         </el-col>
       </el-form-item>
-      <el-form-item label="Instant delivery">
-        <el-switch v-model="form.delivery" />
+      <el-form-item :label="$t('views.form.instantDelivery')">
+        <el-switch v-model="form.delivery" :active-value="true" :inactive-value="false" />
       </el-form-item>
-      <el-form-item label="Activity type">
+      <el-form-item :label="$t('views.form.activityType')">
         <el-checkbox-group v-model="form.type">
-          <el-checkbox label="Online activities" name="type" />
-          <el-checkbox label="Promotion activities" name="type" />
-          <el-checkbox label="Offline activities" name="type" />
-          <el-checkbox label="Simple brand exposure" name="type" />
+          <el-checkbox
+            v-for="item in i18n.messages.value[i18n.locale.value].views.form.activityTypeChecks"
+            :key="item.value"
+            :label="item.value"
+          >
+            {{ item.label }}
+          </el-checkbox>
         </el-checkbox-group>
       </el-form-item>
-      <el-form-item label="Resources">
+      <el-form-item :label="$t('views.form.resources')">
         <el-radio-group v-model="form.resource">
-          <el-radio label="Sponsor" />
-          <el-radio label="Venue" />
+          <el-radio
+            v-for="item in i18n.messages.value[i18n.locale.value].views.form.resourcesOptions"
+            :key="item"
+            :label="item.label"
+            :model-value="item.value"
+          />
         </el-radio-group>
       </el-form-item>
-      <el-form-item label="Activity form">
+      <el-form-item :label="$t('views.form.activityDesc')">
         <el-input v-model="form.desc" type="textarea" />
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="onSubmit">Create</el-button>
-        <el-button @click="onCancel">Cancel</el-button>
+        <el-button type="primary" @click="onSubmit">{{ $t('views.form.btn.submit') }}</el-button>
+        <el-button @click="onCancel">{{ $t('views.form.btn.cancel') }}</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -60,6 +71,9 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { ElMessage } from 'element-plus'
+import { useI18n } from 'vue-i18n'
+
+const i18n = useI18n()
 
 const form = ref({
   name: '',
@@ -72,11 +86,12 @@ const form = ref({
   desc: ''
 })
 const onSubmit = () => {
-  ElMessage.info('submit!')
+  ElMessage.info(i18n.t('views.form.elMessages.submit'))
 }
 const onCancel = () => {
-  ElMessage.warning('cancel!')
+  ElMessage.warning(i18n.t('views.form.elMessages.cancel'))
 }
+const formRef = ref()
 </script>
 
 <style scoped>

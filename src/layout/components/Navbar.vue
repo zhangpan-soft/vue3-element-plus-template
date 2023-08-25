@@ -70,15 +70,19 @@ function logout() {
     confirmButtonText: '确定',
     cancelButtonText: '取消',
     type: 'warning'
-  }).then(() => {
-    store.dispatch('user/logout').then(() => {
-      router.push(`/login?redirect=${route.fullPath}`)
-    })
   })
+    .then(() => {
+      store.dispatch('user/logout').then(() => {
+        router.push(`/login?redirect=${route.fullPath}`)
+      })
+    })
+    .catch(() => {
+      // pass
+    })
 }
 
 function settings() {
-  router.push('/settings')
+  router.push('/system/settings')
 }
 </script>
 

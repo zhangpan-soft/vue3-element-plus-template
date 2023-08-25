@@ -1,16 +1,17 @@
 <template>
   <div class="app-container collapse-custom">
     <el-collapse v-model="activeName" accordion>
-      <el-collapse-item :title="$t('settings.languageTitle')" name="languageSetting">
+      <el-collapse-item :title="$t('views.system.settings.languageTitle')" name="languageSetting">
         <el-row>
           <el-col :span="24">
-            <span>{{ $t('settings.currentLanguage') + ': ' }}</span>
-            <span>{{ $t('language.' + currentLanguage()) }}</span>
+            <span>{{ $t('views.system.settings.currentLanguage') + ': ' }}</span>
+            <span>{{ $t('language.' + i18n.locale.value) }}</span>
             <el-divider direction="vertical" />
-            <span>{{ $t('settings.changeLanguage') + ': ' }}</span>
+            <span>{{ $t('views.system.settings.changeLanguage') + ': ' }}</span>
             <el-select v-model="language" size="small" @change="languageSwitch">
               <el-option
-                v-for="item in languageOptions()"
+                v-for="item in i18n.messages.value[i18n.locale.value].views.system.settings
+                  .languageOptions"
                 :key="item.value"
                 :label="item.label"
                 :value="item.value"
@@ -30,13 +31,7 @@ import { useStore } from 'vuex'
 const i18n = useI18n()
 const store = useStore()
 const activeName = ref('languageSetting')
-const currentLanguage = () => {
-  return i18n.locale.value
-}
-const language = ref(currentLanguage())
-const languageOptions = () => {
-  return (i18n.messages.value[i18n.locale.value].settings as any).languageOptions as any[]
-}
+const language = ref(i18n.locale.value)
 const languageSwitch = (value: string) => {
   store.dispatch('app/setLocale', value)
 }
