@@ -22,6 +22,10 @@ module.exports = defineConfig({
           test: /\.scss$/,
           use: ["sass-loader"],
         },
+        {
+          test: /\.node$/,
+          use: "node-loader",
+        }
       ],
     },
   },
