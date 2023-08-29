@@ -75,3 +75,13 @@ const fetchData = () => {
 }
 fetchData()
 </script>
+
+<style lang="scss" scoped>
+:deep(.el-table__header) {
+  width: 100% !important;
+}
+
+:deep(.el-table__body) {
+  width: 100% !important;
+}
+</style>
